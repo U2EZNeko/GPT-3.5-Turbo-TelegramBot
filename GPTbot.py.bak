@@ -19,39 +19,36 @@ temperature = 0.5
 # Set up chat history
 chat_history = []
 
-# Listen for messages
-updates = bot.get_updates()
-for update in updates:
-    message = update.message
-    chat_id = message.chat.id
-    text = message.text
+# Send a welcome message to the user
+bot.send_message(chat_id=chat_id, text="Hello! I'm a chatbot. What can I help you with?")
 
-    # Check if user wants to change the system prompt
-    if text.startswith("/system"):
-        system_prompt = text.split("/system ")[1]
-        bot.send_message(chat_id=chat_id, text=f"System prompt set to:\n{system_prompt}")
-    # Check if user wants to change the temperature
-    elif text.startswith("/temp"):
-        temperature = float(text.split("/temp ")[1])
-        bot.send_message(chat_id=chat_id, text=f"Temperature set to:\n{temperature}")
-    else:
+# Loop to listen for messages from the user
+while True:
+    # Get the latest message from the user
+    updates = bot.get_updates()
+    if len(updates) > 0:
+        message = updates[-1].message
+        chat_id = message.chat.id
+        text = message.text
+
         # Pass message to GPT-3 and get response
+        prompt = system_prompt + "\nUser: " + text + "\nSystem:"
         response = openai.Completion.create(
             engine="davinci-3.5-turbo",
-            prompt=f"{system_prompt}\nUser: {text}\nSystem:",
+            prompt=prompt,
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=temperature,
             model="text-davinci-002",
-            context=[{"text": chat, "user": "user"} for chat in chat_history[-3:]],
-            logprobs=10,
-            echo=False
+            chat_history=[{"text": chat, "user": "user"} for chat in chat_history[-3:]],
+            chat_log_params={"stop": "\nSystem:", "temperature": temperature}
         ).choices[0].text
+
+        # Send response to user
+        bot.send_message(chat_id=chat_id, text=response)
 
         # Add user message and response to chat history
         chat_history.append(text)
         chat_history.append(response)
 
-        # Send response back to user
-        bot.send_message(chat_id=chat_id, text=response)
