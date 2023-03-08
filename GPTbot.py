@@ -1,11 +1,16 @@
 import telegram
 import openai
+import os
+from dotenv import load_dotenv
 
-# Set up OpenAI API client
-openai.api_key = "YOUR_API_KEY"
+# Load environment variables from .env file
+load_dotenv()
 
-# Set up Telegram bot
-bot = telegram.Bot(token="YOUR_BOT_TOKEN")
+# Get OpenAI API key from environment variable
+openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+# Get Telegram bot token from environment variable
+bot = telegram.Bot(token=os.environ.get("TELEGRAM_BOT_TOKEN"))
 
 # Set default system prompt and temperature
 system_prompt = "This is the default prompt."
