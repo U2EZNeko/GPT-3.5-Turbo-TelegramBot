@@ -16,6 +16,9 @@ bot = telegram.Bot(token=os.environ.get("TELEGRAM_BOT_TOKEN"))
 system_prompt = "This is the default prompt."
 temperature = 0.5
 
+# Set up chat history
+chat_history = []
+
 # Listen for messages
 updates = bot.get_updates()
 for update in updates:
@@ -35,12 +38,20 @@ for update in updates:
         # Pass message to GPT-3 and get response
         response = openai.Completion.create(
             engine="davinci-3.5-turbo",
+            model="text-davinci-003",
             prompt=f"{system_prompt}\nUser: {text}\nSystem:",
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=temperature,
+            context=[{"text": chat, "user": "user"} for chat in chat_history[-3:]],
+            logprobs=10,
+            echo=False
         ).choices[0].text
+
+        # Add user message and response to chat history
+        chat_history.append(text)
+        chat_history.append(response)
 
         # Send response back to user
         bot.send_message(chat_id=chat_id, text=response)
