@@ -13,8 +13,8 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 bot = telegram.Bot(token=os.environ.get("TELEGRAM_BOT_TOKEN"))
 
 # Set default system prompt and temperature
-system_prompt = "This is the default prompt."
-temperature = 0.5
+system_prompt = "You're a helpful assistant, trying to be as factual as possible."
+temperature = 0.7
 
 # Set up chat history
 chat_history = []
@@ -30,6 +30,9 @@ while True:
         message = updates[-1].message
         chat_id = message.chat.id
         text = message.text
+
+        # Send a welcome message to the user
+        bot.send_message(chat_id=chat_id, text="Hello! I'm chatGPT. What can I help you with?")
 
         # Pass message to GPT-3 and get response
         prompt = system_prompt + "\nUser: " + text + "\nSystem:"
