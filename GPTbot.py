@@ -37,7 +37,7 @@ for update in updates:
     else:
         # Pass message to GPT-3 and get response
         response = openai.Completion.create(
-            engine="davinci-3.5-turbo",
+            engine="gpt-3.5-turbo",
             model="text-davinci-003",
             prompt=f"{system_prompt}\nUser: {text}\nSystem:",
             max_tokens=1024,
