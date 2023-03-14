@@ -44,23 +44,37 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 
 ### Working commands:
 
-/newtopic - Wipes chat(for the AI, you can still see). Should help if you error with "more than 4096 Tokens" error
+/newtopic 
   
-/setprompt - Will let you set a new system prompt from chat. It's fun to switch the AI's characters up every now and then.
+  - Wipes chat(for the AI, you can still see). Should help if you error with "more than 4096 Tokens" error
+  
+/setprompt 
+  
+  - Will let you set a new system prompt from chat. It's fun to switch the AI's characters up every now and then.
   
 /help - What do you expect?
   
-/start - Same as help, kinda?
+/start 
+  
+  - Same as help, kinda?
 
 ### Non working commands:
   
-/settemperature - Set the temperature(Default is 0.7)
+/settemperature 
   
-/setfrequencypenalty - Set the frequency penalty(Default is 0.1)
+  - Set the temperature(Default is 0.7)
   
-/setpresencepenalty - Set the presence penalty(Default is 0.1)
+/setfrequencypenalty 
+  
+  - Set the frequency penalty(Default is 0.1)
+  
+/setpresencepenalty 
+  
+  - Set the presence penalty(Default is 0.1)
 
-For now you'll have to adjust these in the script. (Line 133-135)
+  
+  
+###For now you'll have to adjust these in the script. (Line 133-135)
 
 -----------------------------------
 
