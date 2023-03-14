@@ -11,15 +11,8 @@ I still recommend using the web-interface when possible, it's free.
 
 ------------------------------------
 
-If you error out with "tried to use more than 4096 Tokens" please run /newtopic to wipe your chat. As far as I can tell it will take your previous messages into consideration and blow up the Token count sooner or later.
 
-
-Please beware of the OpenAI regulations and default moderations. You can get your account banned if you get flagged. (Hard to do these days, moderation is pretty strong)
-
-
-------------------------------------
-
-Requirements:
+## Requirements:
 
 OpenAI API key 
 
@@ -78,7 +71,16 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 
 -----------------------------------
 
+## Tips/Known errors
 
+
+If you error out with "tried to use more than 4096 Tokens" please run /newtopic to wipe your chat. As far as I can tell it will take your previous messages into consideration and blow up the Token count sooner or later.
+
+
+Please beware of the OpenAI regulations and default moderations. You can get your account banned if you get flagged. (Hard to do these days, moderation is pretty strong)
+
+
+------------------------------------
 
 
 Thanks OpenAI and Dan for helping me.
