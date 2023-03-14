@@ -50,7 +50,9 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 /start 
   
   - Same as help, kinda?
-
+  
+----------
+  
 ### Non working commands:
   
 /settemperature 
