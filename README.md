@@ -20,11 +20,20 @@ Please beware of the OpenAI regulations and default moderations. You can get you
 ------------------------------------
 
 Requirements:
-OpenAI API key - these are not 100% free!
 
-Telegram Bot Token -  from Botfather
+OpenAI API key 
 
-Telegram ChatID - Get it from here: https://api.telegram.org/bot<YourBotToken>/getUpdates text the bot once you are there and refresh.
+- these are not 100% free!
+
+
+Telegram Bot Token 
+
+-  from Botfather
+
+
+Telegram ChatID 
+
+- Get it from here: https://api.telegram.org/bot<YourBotToken>/getUpdates text the bot once you are there and refresh.
 
   
 YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I tried catching the exception but couldn't test it.
