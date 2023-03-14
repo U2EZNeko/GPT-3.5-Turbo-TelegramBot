@@ -131,7 +131,7 @@ if __name__ == '__main__':
     hello_message = f"Hello! I'm bot powered on API GPT-3.5-Turbo(ChatGPT). Here are your options:\n/newtopic - Create a new chat"
     current_time = time.strftime('%Y-%m-%d %H:%M:%S')
     greeting_message = f"{hello_message}\n\n{current_time}"
-    bot.send_message(chat_id=CHAT_ID, text=greeting_message)
+    bot.send_message(chat_id=chat_id, text=greeting_message)
     #CLI Logging
     logging.info("Bot started at %s", time.strftime('%Y-%m-%d %H:%M:%S'))
     executor.start_polling(dp)
