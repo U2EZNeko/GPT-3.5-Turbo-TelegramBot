@@ -67,7 +67,7 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 
   
   
-###For now you'll have to adjust these in the script. (Line 133-135)
+### For now you'll have to adjust these in the script. (Line 133-135)
 
 -----------------------------------
 
