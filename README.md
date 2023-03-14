@@ -33,7 +33,7 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 
 ------------------------------------
 
-Working commands:
+### Working commands:
 
 /newtopic - Wipes chat(for the AI, you can still see). Should help if you error with "more than 4096 Tokens" error
   
@@ -43,7 +43,8 @@ Working commands:
   
 /start - Same as help, kinda?
 
-Non working commands:
+### Non working commands:
+  
 /settemperature - Set the temperature(Default is 0.7)
   
 /setfrequencypenalty - Set the frequency penalty(Default is 0.1)
