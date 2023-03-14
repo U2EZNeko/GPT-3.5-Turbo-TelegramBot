@@ -35,7 +35,7 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
 
 ------------------------------------
 
-### Working commands:
+## Working commands:
 
 /newtopic 
   
@@ -51,9 +51,10 @@ YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I t
   
   - Same as help, kinda?
   
-----------
+
   
-### Non working commands:
+  
+## Non working commands:
   
 /settemperature 
   
