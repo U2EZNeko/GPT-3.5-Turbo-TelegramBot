@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get environment variables
-bot_token = os.getenv('BOT_TOKEN') # Bot token from Telegram API
-api_key = os.getenv('API_KEY') # API key for OpenAI
-chat_id = os.getenv('CHAT_ID') # ID of the chat where the bot will send messages
+bot_token = os.getenv('BOT_TOKEN')  # Bot token from Telegram API
+api_key = os.getenv('API_KEY')  # API key for OpenAI
+chat_id = os.getenv('CHAT_ID')  # ID of the chat where the bot will send messages
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -27,6 +27,7 @@ openai.api_key = api_key
 # Create a dictionary to store messages for each user
 messages = {}
 
+
 # Handle the /start command
 @dp.message_handler(commands=['start'])
 async def start_cmd(message: types.Message):
@@ -36,7 +37,12 @@ async def start_cmd(message: types.Message):
         await message.answer("Please set a username in Telegram settings and try again.")
         return
     messages[username] = []
-    await message.answer("Hello, I'm bot powered on API GPT-3.5-turbo (ChatGPT)")
+    await message.answer(
+        "Hello, I'm bot powered on API GPT-3.5-turbo (ChatGPT).\n These are your options:\n/help - Show this help "
+        "message\n/newtopic - Start a new chat\n/setprompt - Set the system prompt\n/settemperature - Set the "
+        "temperature(Default is 0.7)\n/setfrequencypenalty - Set the frequency penalty(Default is 0.1)"
+        "\n/setpresencepenalty - Set the presence penalty(Default is 0.1)")
+
 
 # Handle the /newtopic command
 @dp.message_handler(commands=['newtopic'])
@@ -44,6 +50,7 @@ async def new_topic_cmd(message: types.Message):
     username = message.from_user.username
     messages[username] = []
     await message.answer("Created new chat!")
+
 
 # Handle /setprompt command. Lets user set a new system prompt on the fly.
 @dp.message_handler(commands=['setprompt'])
@@ -54,33 +61,44 @@ async def set_prompt_cmd(message: types.Message):
     messages[username].append({"role": "system", "content": prompt})
     await message.answer(f"System prompt set to '{prompt}'.")
 
-# Handle /settemperature command. Lets user set the temperature for the AI response.
+
+# Handle /settemperature command. Lets user set the temperature.
 @dp.message_handler(commands=['settemperature'])
 async def set_temperature_cmd(message: types.Message):
     username = message.from_user.username
     temperature = message.text.split(' ', 1)[1]
     messages[username] = []
-    messages[username].append({"role": "system", "content": f"Temperature set to {temperature}."})
+    messages[username].append({"role": "system", "content": f"Temperature set to {temperature}"})
     await message.answer(f"Temperature set to {temperature}.")
 
-# Handle /setfreqpenalty command. Lets user set the frequency penalty for the AI response.
-@dp.message_handler(commands=['setfreqpenalty'])
-async def set_freq_penalty_cmd(message: types.Message):
-    username = message.from_user.username
-    freq_penalty = message.text.split(' ', 1)[1]
-    messages[username] = []
-    messages[username].append({"role": "system", "content": f"Frequency penalty set to {freq_penalty}."})
-    await message.answer(f"Frequency penalty set to {freq_penalty}.")
 
-# Handle /setprespenalty command. Lets user set the presence penalty for the AI response.
-@dp.message_handler(commands=['setprespenalty'])
-async def set_pres_penalty_cmd(message: types.Message):
+# Handle /setfrequencypenalty command. Lets user set the frequency penalty.
+@dp.message_handler(commands=['setfrequencypenalty'])
+async def set_frequency_penalty_cmd(message: types.Message):
     username = message.from_user.username
-    pres_penalty = message.text.split(' ', 1)[1]
+    frequency_penalty = message.text.split(' ', 1)[1]
     messages[username] = []
-    messages[username].append({"role": "system", "content": f"Presence penalty set to {pres_penalty}."})
-    await message.answer(f"Presence penalty set to {pres_penalty}.")
+    messages[username].append({"role": "system", "content": f"Frequency penalty set to {frequency_penalty}"})
+    await message.answer(f"Frequency penalty set to {frequency_penalty}.")
 
+
+# Handle /setpresencepenalty command. Lets user set the presence penalty.
+@dp.message_handler(commands=['setpresencepenalty'])
+async def set_presence_penalty_cmd(message: types.Message):
+    username = message.from_user.username
+    presence_penalty = message.text.split(' ', 1)[1]
+    messages[username] = []
+    messages[username].append({"role": "system", "content": f"Presence penalty set to {presence_penalty}"})
+    await message.answer(f"Presence penalty set to {presence_penalty}.")
+
+
+# Handle the /help command
+@dp.message_handler(commands=['help'])
+async def help_cmd(message: types.Message):
+    help_text = "/help - Show this help message\n/newtopic - Start a new chat\n/setprompt - Set the system prompt\n" \
+                "/settemperature - Set the temperature(Default is 0.7)\n/setfrequencypenalty - Set the frequency " \
+                "penalty(Default is 0.1)\n/setpresencepenalty - Set the presence penalty(Default is 0.1)"
+    await message.answer(help_text)
 
 
 # Handle all other messages
@@ -88,11 +106,9 @@ async def set_pres_penalty_cmd(message: types.Message):
 async def echo_msg(message: types.Message):
     user_message = message.text
     username = message.from_user.username
-
     # If this is the first message from the user, create a new list to store messages
     if username not in messages:
         messages[username] = []
-
     # Add user's message to the message list
     messages[username].append({"role": "user", "content": user_message})
     messages[username].append({"role": "system", "content": "You are a Helpful assistant."})
@@ -110,9 +126,13 @@ async def echo_msg(message: types.Message):
             model="gpt-3.5-turbo",
             messages=messages[username],
             max_tokens=1024,
-            temperature=float(messages[username].get('temperature', '0.7')),
-            frequency_penalty=float(messages[username].get('freq_penalty', '0')),
-            presence_penalty=float(messages[username].get('pres_penalty', '0')),
+            # Get user preferences or default values if they have not been set
+            # temperature=float(messages.get(username, {}).get('temperature', '0.7')),
+            # frequency_penalty=float(messages.get(username, {}).get('freq_penalty', '0')),
+            # presence_penalty=float(messages.get(username, {}).get('pres_penalty', '0')),
+            temperature=0.7,
+            frequency_penalty=0.1,
+            presence_penalty=0.1,
             user=username
         )
         chatgpt_response = completion.choices[0]['message']
@@ -122,16 +142,16 @@ async def echo_msg(message: types.Message):
         logging.info(f'ChatGPT response: {chatgpt_response["content"]}')
 
         # Send the bot's response to the chat
-        await message.reply(chatgpt_response['content'], parse_mode='Markdown', chat_id=chat_id)
-
+        await message.reply(chatgpt_response['content'], parse_mode='Markdown')
 
 
 if __name__ == '__main__':
-    # Send a greeting message with the current system time
-    hello_message = f"Hello! I'm bot powered on API GPT-3.5-Turbo(ChatGPT). Here are your options:\n/newtopic - Create a new chat"
-    current_time = time.strftime('%Y-%m-%d %H:%M:%S')
-    greeting_message = f"{hello_message}\n\n{current_time}"
-    bot.send_message(chat_id=chat_id, text=greeting_message)
-    #CLI Logging
+    # Send a greeting message with the current system time - Doesnt work, im dumb.
+    # hello_message = f"Hello! I'm bot powered on API GPT-3.5-Turbo(ChatGPT). Here are your options:\n/newtopic - " \
+    #                 "Create a new chat"
+    # current_time = time.strftime('%Y-%m-%d %H:%M:%S')
+    # greeting_message = f"{hello_message}\n\n{current_time}"
+    # bot.send_message(chat_id=os.getenv('CHAT_ID'), text=greeting_message)
+    # CLI Logging
     logging.info("Bot started at %s", time.strftime('%Y-%m-%d %H:%M:%S'))
     executor.start_polling(dp)
