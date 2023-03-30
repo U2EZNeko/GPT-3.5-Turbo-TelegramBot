@@ -26,7 +26,7 @@ Telegram Bot Token
 
 Telegram ChatID 
 
-- Get it from here: https://api.telegram.org/bot<YourBotToken>/getUpdates text the bot once you are there and refresh.
+- Get it from here: https://api.telegram.org/bot< YourBotToken >/getUpdates text the bot once you are there and refresh.
 
   
 YOU NEED TO SET A USERNAME ON TELEGRAM - This is how the bot identifies you. I tried catching the exception but couldn't test it.
